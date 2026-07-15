@@ -66,25 +66,17 @@
   }
 
   .stage-wrap{
-    max-width:820px;
+    max-width:1000px;
     margin:0 auto;
     padding:8px 24px 0;
   }
 
-  .players-grid{
-    display:grid;
-    grid-template-columns:repeat(6, 1fr);
-    gap:20px;
+  .players-row{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:16px;
     margin:32px 0 8px;
-  }
-  .players-grid .player-card:nth-child(1),
-  .players-grid .player-card:nth-child(2){
-    grid-column:span 3;
-  }
-  .players-grid .player-card:nth-child(3),
-  .players-grid .player-card:nth-child(4),
-  .players-grid .player-card:nth-child(5){
-    grid-column:span 2;
   }
 
   .player-card{
@@ -97,6 +89,7 @@
     border:1px solid rgba(212,175,55,0.25);
     border-radius:16px;
     padding:24px 18px;
+    width:172px;
     min-height:230px;
     justify-content:center;
     transition:border-color 0.2s ease, box-shadow 0.2s ease;
@@ -108,8 +101,8 @@
 
   .reel-button{
     position:relative;
-    width:78px;
-    height:78px;
+    width:66px;
+    height:66px;
     flex:0 0 auto;
     border-radius:50%;
     border:none;
@@ -123,7 +116,39 @@
     transition:transform 0.2s ease;
   }
   .reel-button:hover{ transform:scale(1.04); }
-  .reel-button.spinning{ animation:spin 3.2s linear infinite; }
+  .reel-button.spinning{
+    animation:spin 3.2s linear infinite;
+    background:
+      radial-gradient(circle at 50% 50%, #241c12 0 18%, #120d09 19% 46%, var(--gold) 47% 50%, #241c12 51% 100%);
+    box-shadow:0 0 0 1px rgba(212,175,55,0.6), 0 0 22px rgba(212,175,55,0.35), 0 8px 30px rgba(0,0,0,0.5);
+  }
+
+  .progress-wrap{
+    width:100%;
+    margin-top:2px;
+  }
+  .progress-track{
+    width:100%;
+    height:4px;
+    background:rgba(212,175,55,0.15);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:var(--gold);
+    border-radius:2px;
+    transition:width 0.15s linear;
+  }
+  .time-label{
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    color:var(--muted);
+    margin-top:4px;
+    font-variant-numeric:tabular-nums;
+  }
   @keyframes spin{ to{ transform:rotate(360deg); } }
   .reel-button .tri{
     width:0; height:0;
@@ -143,7 +168,7 @@
   .player-meta{ text-align:center; }
   .player-meta .track{
     font-family:'Playfair Display', serif;
-    font-size:16px;
+    font-size:14px;
     font-weight:600;
     margin:0 0 4px;
     line-height:1.3;
@@ -267,14 +292,7 @@
   }
 
   @media (max-width:640px){
-    .players-grid{ grid-template-columns:1fr; }
-    .players-grid .player-card:nth-child(1),
-    .players-grid .player-card:nth-child(2),
-    .players-grid .player-card:nth-child(3),
-    .players-grid .player-card:nth-child(4),
-    .players-grid .player-card:nth-child(5){
-      grid-column:span 1;
-    }
+    .player-card{ width:100%; max-width:280px; }
   }
 </style>
 </head>
@@ -290,7 +308,7 @@
 
   <div class="stage-wrap">
 
-    <div class="players-grid" id="playersRow">
+    <div class="players-row" id="playersRow">
 
       <div class="player-card" data-track-id="track1">
         <button class="reel-button" data-target="track1" aria-label="Play take 1">
@@ -300,6 +318,10 @@
           <p class="track">Jennifer "Hub"son</p>
           <p class="desc" id="label-track1">HubSpot meets Dreamgirls</p>
           <p class="status" id="status-track1">▶ Loading&hellip;</p>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" id="fill-track1"></div></div>
+          <div class="time-label"><span id="cur-track1">0:00</span><span id="dur-track1">--:--</span></div>
         </div>
         <a class="download-btn" href="hudson.mp3" download>&#8681; Download</a>
         <audio id="track1" src="hudson.mp3" preload="metadata"></audio>
@@ -314,6 +336,10 @@
           <p class="desc" id="label-track2">The singer, not the.. well you know what I mean</p>
           <p class="status" id="status-track2">▶ Loading&hellip;</p>
         </div>
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" id="fill-track2"></div></div>
+          <div class="time-label"><span id="cur-track2">0:00</span><span id="dur-track2">--:--</span></div>
+        </div>
         <a class="download-btn" href="seal.mp3" download>&#8681; Download</a>
         <audio id="track2" src="seal.mp3" preload="metadata"></audio>
       </div>
@@ -326,6 +352,10 @@
           <p class="track">Lead Zeppelin</p>
           <p class="desc" id="label-track3">For those motivated HubSpot days</p>
           <p class="status" id="status-track3">▶ Loading&hellip;</p>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" id="fill-track3"></div></div>
+          <div class="time-label"><span id="cur-track3">0:00</span><span id="dur-track3">--:--</span></div>
         </div>
         <a class="download-btn" href="zeppelin.mp3" download>&#8681; Download</a>
         <audio id="track3" src="zeppelin.mp3" preload="metadata"></audio>
@@ -340,6 +370,10 @@
           <p class="desc" id="label-track4">Not my style, but loved the pun opportunity</p>
           <p class="status" id="status-track4">▶ Loading&hellip;</p>
         </div>
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" id="fill-track4"></div></div>
+          <div class="time-label"><span id="cur-track4">0:00</span><span id="dur-track4">--:--</span></div>
+        </div>
         <a class="download-btn" href="chruna.mp3" download>&#8681; Download</a>
         <audio id="track4" src="chruna.mp3" preload="metadata"></audio>
       </div>
@@ -352,6 +386,10 @@
           <p class="track">Frank Syncatra</p>
           <p class="desc" id="label-track5">Classy, nothing else to say</p>
           <p class="status" id="status-track5">▶ Loading&hellip;</p>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" id="fill-track5"></div></div>
+          <div class="time-label"><span id="cur-track5">0:00</span><span id="dur-track5">--:--</span></div>
         </div>
         <a class="download-btn" href="frank.mp3" download>&#8681; Download</a>
         <audio id="track5" src="frank.mp3" preload="metadata"></audio>
@@ -500,20 +538,40 @@
       });
     }
 
+    function formatTime(seconds){
+      if (!isFinite(seconds)) return '--:--';
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return m + ':' + s;
+    }
+
     cards.forEach(card => {
       const id = card.dataset.trackId;
       const audio = document.getElementById(id);
       const button = card.querySelector('.reel-button');
       const status = document.getElementById('status-' + id);
+      const fill = document.getElementById('fill-' + id);
+      const curLabel = document.getElementById('cur-' + id);
+      const durLabel = document.getElementById('dur-' + id);
       status.dataset.hasAudio = 'false';
 
       audio.addEventListener('error', () => {
         status.dataset.hasAudio = 'false';
         status.textContent = '▶ AUDIO NOT FOUND';
       });
-      audio.addEventListener('canplay', () => {
+      audio.addEventListener('loadedmetadata', () => {
         status.dataset.hasAudio = 'true';
         status.textContent = '▶ READY TO PLAY';
+        durLabel.textContent = formatTime(audio.duration);
+      });
+      audio.addEventListener('canplay', () => {
+        status.dataset.hasAudio = 'true';
+      });
+      audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+          fill.style.width = ((audio.currentTime / audio.duration) * 100) + '%';
+          curLabel.textContent = formatTime(audio.currentTime);
+        }
       });
 
       button.addEventListener('click', () => {
@@ -539,6 +597,8 @@
         button.classList.remove('spinning');
         card.classList.remove('playing');
         status.textContent = '▶ FINISHED — PLAY AGAIN';
+        fill.style.width = '0%';
+        curLabel.textContent = '0:00';
       });
     });
   </script>
